@@ -1,0 +1,6 @@
+D:\Git\PruebaTecnica\PruebaTecnica\Util\bin\Debug\Util.dll
+D:\Git\PruebaTecnica\PruebaTecnica\Util\bin\Debug\Util.pdb
+D:\Git\PruebaTecnica\PruebaTecnica\Util\obj\Debug\Util.csproj.CoreCompileInputs.cache
+D:\Git\PruebaTecnica\PruebaTecnica\Util\obj\Debug\Util.dll
+D:\Git\PruebaTecnica\PruebaTecnica\Util\obj\Debug\Util.pdb
+D:\Git\PruebaTecnica\PruebaTecnica\Util\obj\Debug\Util.csprojAssemblyReference.cache

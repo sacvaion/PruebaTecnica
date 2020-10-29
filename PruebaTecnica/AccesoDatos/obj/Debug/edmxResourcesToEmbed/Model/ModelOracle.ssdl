@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SAC_ADMIN.DETALLEFACTURA' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DETALLEFACTURA">
+    <Key>
+      <PropertyRef Name="IDFACTURA" />
+      <PropertyRef Name="IDPRODUCTO" />
+      <PropertyRef Name="NOPRODUCTOS" />
+    </Key>
+    <Property Name="IDFACTURA" Type="raw" MaxLength="16" Nullable="false" />
+    <Property Name="IDPRODUCTO" Type="number" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="NOPRODUCTOS" Type="number" Precision="4" Scale="0" Nullable="false" />
+    <Property Name="DESCUENTO" Type="number" Precision="10" Scale="0" />
+    <Property Name="VALORUNIDAD" Type="number" Precision="10" Scale="0" />
+    <Property Name="TOTALPAGO" Type="number" Precision="10" Scale="0" />
+  </EntityType>
+  <EntityType Name="FACTURAS">
+    <Key>
+      <PropertyRef Name="IDFACTURA" />
+    </Key>
+    <Property Name="IDFACTURA" Type="raw" MaxLength="16" Nullable="false" />
+    <Property Name="NUMEROFACTURA" Type="varchar2" MaxLength="50" Nullable="false" />
+    <Property Name="FECHA" Type="date" Nullable="false" />
+    <Property Name="TIPODEPAGO" Type="varchar2" MaxLength="50" Nullable="false" />
+    <Property Name="DOCUMENTOCLIENTE" Type="varchar2" MaxLength="25" Nullable="false" />
+    <Property Name="NOMBRECLIENTE" Type="varchar2" MaxLength="100" Nullable="false" />
+    <Property Name="SUBTOTAL" Type="number" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="DESCUENTO" Type="number" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="IVA" Type="number" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="TOTALDESCUENTO" Type="number" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="TOTALIMPUESTO" Type="number" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="TOTAL" Type="number" Precision="10" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PRODUCTOS">
+    <Key>
+      <PropertyRef Name="IDPRODUCTO" />
+    </Key>
+    <Property Name="IDPRODUCTO" Type="number" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="PRODUCTO" Type="varchar2" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_FACTURA">
+    <End Role="FACTURAS" Type="Self.FACTURAS" Multiplicity="1" />
+    <End Role="DETALLEFACTURA" Type="Self.DETALLEFACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURAS">
+        <PropertyRef Name="IDFACTURA" />
+      </Principal>
+      <Dependent Role="DETALLEFACTURA">
+        <PropertyRef Name="IDFACTURA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODUCTOS">
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
+    <End Role="DETALLEFACTURA" Type="Self.DETALLEFACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTOS">
+        <PropertyRef Name="IDPRODUCTO" />
+      </Principal>
+      <Dependent Role="DETALLEFACTURA">
+        <PropertyRef Name="IDPRODUCTO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="FACTURAS" EntityType="Self.FACTURAS" Schema="SAC_ADMIN" store:Type="Tables" />
+    <EntitySet Name="PRODUCTOS" EntityType="Self.PRODUCTOS" Schema="SAC_ADMIN" store:Type="Tables" />
+    <EntitySet Name="DETALLEFACTURA" EntityType="Self.DETALLEFACTURA" store:Type="Tables" store:Schema="SAC_ADMIN">
+      <DefiningQuery>SELECT 
+"DETALLEFACTURA"."IDFACTURA" AS "IDFACTURA", 
+"DETALLEFACTURA"."IDPRODUCTO" AS "IDPRODUCTO", 
+"DETALLEFACTURA"."NOPRODUCTOS" AS "NOPRODUCTOS", 
+"DETALLEFACTURA"."DESCUENTO" AS "DESCUENTO", 
+"DETALLEFACTURA"."VALORUNIDAD" AS "VALORUNIDAD", 
+"DETALLEFACTURA"."TOTALPAGO" AS "TOTALPAGO"
+FROM "SAC_ADMIN"."DETALLEFACTURA" "DETALLEFACTURA"</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_FACTURA" Association="Self.FK_FACTURA">
+      <End Role="FACTURAS" EntitySet="FACTURAS" />
+      <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODUCTOS" Association="Self.FK_PRODUCTOS">
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+      <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURA" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

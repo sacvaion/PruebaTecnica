@@ -19,7 +19,7 @@ namespace AccesoDatos.Model
             this.DETALLEFACTURAs = new HashSet<DETALLEFACTURA>();
         }
     
-        public int IDFACTURA { get; set; }
+        public System.Guid IDFACTURA { get; set; }
         public string NUMEROFACTURA { get; set; }
         public System.DateTime FECHA { get; set; }
         public string TIPODEPAGO { get; set; }

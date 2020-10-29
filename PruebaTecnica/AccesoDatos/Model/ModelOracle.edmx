@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SAC_ADMIN.DETALLEFACTURA' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="DETALLEFACTURA">
@@ -13,7 +13,7 @@ warning 6002: The table/view 'SAC_ADMIN.DETALLEFACTURA' does not have a primary 
             <PropertyRef Name="IDPRODUCTO" />
             <PropertyRef Name="NOPRODUCTOS" />
           </Key>
-          <Property Name="IDFACTURA" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="IDFACTURA" Type="raw" MaxLength="16" Nullable="false" />
           <Property Name="IDPRODUCTO" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="NOPRODUCTOS" Type="number" Precision="4" Scale="0" Nullable="false" />
           <Property Name="DESCUENTO" Type="number" Precision="10" Scale="0" />
@@ -24,12 +24,12 @@ warning 6002: The table/view 'SAC_ADMIN.DETALLEFACTURA' does not have a primary 
           <Key>
             <PropertyRef Name="IDFACTURA" />
           </Key>
-          <Property Name="IDFACTURA" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="IDFACTURA" Type="raw" MaxLength="16" Nullable="false" />
           <Property Name="NUMEROFACTURA" Type="varchar2" MaxLength="50" Nullable="false" />
           <Property Name="FECHA" Type="date" Nullable="false" />
           <Property Name="TIPODEPAGO" Type="varchar2" MaxLength="50" Nullable="false" />
           <Property Name="DOCUMENTOCLIENTE" Type="varchar2" MaxLength="25" Nullable="false" />
-          <Property Name="NOMBRECLIENTE" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="NOMBRECLIENTE" Type="varchar2" MaxLength="100" Nullable="false" />
           <Property Name="SUBTOTAL" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="DESCUENTO" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="IVA" Type="number" Precision="10" Scale="0" Nullable="false" />
@@ -90,36 +90,48 @@ FROM "SAC_ADMIN"."DETALLEFACTURA" "DETALLEFACTURA"</DefiningQuery>
             <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURA" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FACTURAS" EntityType="Model.FACTURA" />
+          <EntitySet Name="PRODUCTOS" EntityType="Model.PRODUCTO" />
+          <EntitySet Name="DETALLEFACTURAs" EntityType="Model.DETALLEFACTURA" />
+          <AssociationSet Name="FK_FACTURA" Association="Model.FK_FACTURA">
+            <End Role="FACTURA" EntitySet="FACTURAS" />
+            <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTOS" Association="Model.FK_PRODUCTOS">
+            <End Role="PRODUCTO" EntitySet="PRODUCTOS" />
+            <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURAs" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="FACTURA">
           <Key>
             <PropertyRef Name="IDFACTURA" />
           </Key>
-          <Property Name="IDFACTURA" Type="Int32" Nullable="false" />
-          <Property Name="NUMEROFACTURA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IDFACTURA" Type="Guid" Nullable="false" />
+          <Property Name="NUMEROFACTURA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FECHA" Type="DateTime" Nullable="false" />
-          <Property Name="TIPODEPAGO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DOCUMENTOCLIENTE" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NOMBRECLIENTE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TIPODEPAGO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOCUMENTOCLIENTE" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRECLIENTE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="SUBTOTAL" Type="Int32" Nullable="false" />
           <Property Name="DESCUENTO" Type="Int32" Nullable="false" />
           <Property Name="IVA" Type="Int32" Nullable="false" />
           <Property Name="TOTALDESCUENTO" Type="Int32" Nullable="false" />
           <Property Name="TOTALIMPUESTO" Type="Int32" Nullable="false" />
           <Property Name="TOTAL" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DETALLEFACTURAs" Relationship="Self.FK_FACTURA" FromRole="FACTURAS" ToRole="DETALLEFACTURA" />
+          <NavigationProperty Name="DETALLEFACTURAs" Relationship="Model.FK_FACTURA" FromRole="FACTURA" ToRole="DETALLEFACTURA" />
         </EntityType>
         <EntityType Name="PRODUCTO">
           <Key>
             <PropertyRef Name="IDPRODUCTO" />
           </Key>
           <Property Name="IDPRODUCTO" Type="Int32" Nullable="false" />
-          <Property Name="PRODUCTO1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="DETALLEFACTURAs" Relationship="Self.FK_PRODUCTOS" FromRole="PRODUCTOS" ToRole="DETALLEFACTURA" />
+          <Property Name="PRODUCTO1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DETALLEFACTURAs" Relationship="Model.FK_PRODUCTOS" FromRole="PRODUCTO" ToRole="DETALLEFACTURA" />
         </EntityType>
         <EntityType Name="DETALLEFACTURA">
           <Key>
@@ -127,20 +139,20 @@ FROM "SAC_ADMIN"."DETALLEFACTURA" "DETALLEFACTURA"</DefiningQuery>
             <PropertyRef Name="IDPRODUCTO" />
             <PropertyRef Name="NOPRODUCTOS" />
           </Key>
-          <Property Name="IDFACTURA" Type="Int32" Nullable="false" />
+          <Property Name="IDFACTURA" Type="Guid" Nullable="false" />
           <Property Name="IDPRODUCTO" Type="Int32" Nullable="false" />
           <Property Name="NOPRODUCTOS" Type="Int16" Nullable="false" />
           <Property Name="DESCUENTO" Type="Int32" />
           <Property Name="VALORUNIDAD" Type="Int32" />
           <Property Name="TOTALPAGO" Type="Int32" />
-          <NavigationProperty Name="FACTURA" Relationship="Self.FK_FACTURA" FromRole="DETALLEFACTURA" ToRole="FACTURAS" />
-          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK_PRODUCTOS" FromRole="DETALLEFACTURA" ToRole="PRODUCTOS" />
+          <NavigationProperty Name="FACTURA" Relationship="Model.FK_FACTURA" FromRole="DETALLEFACTURA" ToRole="FACTURA" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Model.FK_PRODUCTOS" FromRole="DETALLEFACTURA" ToRole="PRODUCTO" />
         </EntityType>
         <Association Name="FK_FACTURA">
-          <End Role="FACTURAS" Type="Self.FACTURA" Multiplicity="1" />
-          <End Role="DETALLEFACTURA" Type="Self.DETALLEFACTURA" Multiplicity="*" />
+          <End Type="Model.FACTURA" Role="FACTURA" Multiplicity="1" />
+          <End Type="Model.DETALLEFACTURA" Role="DETALLEFACTURA" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="FACTURAS">
+            <Principal Role="FACTURA">
               <PropertyRef Name="IDFACTURA" />
             </Principal>
             <Dependent Role="DETALLEFACTURA">
@@ -149,10 +161,10 @@ FROM "SAC_ADMIN"."DETALLEFACTURA" "DETALLEFACTURA"</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PRODUCTOS">
-          <End Role="PRODUCTOS" Type="Self.PRODUCTO" Multiplicity="1" />
-          <End Role="DETALLEFACTURA" Type="Self.DETALLEFACTURA" Multiplicity="*" />
+          <End Type="Model.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="Model.DETALLEFACTURA" Role="DETALLEFACTURA" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PRODUCTOS">
+            <Principal Role="PRODUCTO">
               <PropertyRef Name="IDPRODUCTO" />
             </Principal>
             <Dependent Role="DETALLEFACTURA">
@@ -160,19 +172,6 @@ FROM "SAC_ADMIN"."DETALLEFACTURA" "DETALLEFACTURA"</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="FACTURAS" EntityType="Self.FACTURA" />
-          <EntitySet Name="PRODUCTOS" EntityType="Self.PRODUCTO" />
-          <EntitySet Name="DETALLEFACTURAs" EntityType="Self.DETALLEFACTURA" />
-          <AssociationSet Name="FK_FACTURA" Association="Self.FK_FACTURA">
-            <End Role="FACTURAS" EntitySet="FACTURAS" />
-            <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURAs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PRODUCTOS" Association="Self.FK_PRODUCTOS">
-            <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
-            <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURAs" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -182,38 +181,38 @@ FROM "SAC_ADMIN"."DETALLEFACTURA" "DETALLEFACTURA"</DefiningQuery>
           <EntitySetMapping Name="FACTURAS">
             <EntityTypeMapping TypeName="Model.FACTURA">
               <MappingFragment StoreEntitySet="FACTURAS">
-                <ScalarProperty Name="IDFACTURA" ColumnName="IDFACTURA" />
-                <ScalarProperty Name="NUMEROFACTURA" ColumnName="NUMEROFACTURA" />
-                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
-                <ScalarProperty Name="TIPODEPAGO" ColumnName="TIPODEPAGO" />
-                <ScalarProperty Name="DOCUMENTOCLIENTE" ColumnName="DOCUMENTOCLIENTE" />
-                <ScalarProperty Name="NOMBRECLIENTE" ColumnName="NOMBRECLIENTE" />
-                <ScalarProperty Name="SUBTOTAL" ColumnName="SUBTOTAL" />
-                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
-                <ScalarProperty Name="IVA" ColumnName="IVA" />
-                <ScalarProperty Name="TOTALDESCUENTO" ColumnName="TOTALDESCUENTO" />
-                <ScalarProperty Name="TOTALIMPUESTO" ColumnName="TOTALIMPUESTO" />
                 <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+                <ScalarProperty Name="TOTALIMPUESTO" ColumnName="TOTALIMPUESTO" />
+                <ScalarProperty Name="TOTALDESCUENTO" ColumnName="TOTALDESCUENTO" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
+                <ScalarProperty Name="SUBTOTAL" ColumnName="SUBTOTAL" />
+                <ScalarProperty Name="NOMBRECLIENTE" ColumnName="NOMBRECLIENTE" />
+                <ScalarProperty Name="DOCUMENTOCLIENTE" ColumnName="DOCUMENTOCLIENTE" />
+                <ScalarProperty Name="TIPODEPAGO" ColumnName="TIPODEPAGO" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="NUMEROFACTURA" ColumnName="NUMEROFACTURA" />
+                <ScalarProperty Name="IDFACTURA" ColumnName="IDFACTURA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PRODUCTOS">
             <EntityTypeMapping TypeName="Model.PRODUCTO">
               <MappingFragment StoreEntitySet="PRODUCTOS">
-                <ScalarProperty Name="IDPRODUCTO" ColumnName="IDPRODUCTO" />
                 <ScalarProperty Name="PRODUCTO1" ColumnName="PRODUCTO" />
+                <ScalarProperty Name="IDPRODUCTO" ColumnName="IDPRODUCTO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DETALLEFACTURAs">
             <EntityTypeMapping TypeName="Model.DETALLEFACTURA">
               <MappingFragment StoreEntitySet="DETALLEFACTURA">
-                <ScalarProperty Name="IDFACTURA" ColumnName="IDFACTURA" />
-                <ScalarProperty Name="IDPRODUCTO" ColumnName="IDPRODUCTO" />
-                <ScalarProperty Name="NOPRODUCTOS" ColumnName="NOPRODUCTOS" />
-                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
-                <ScalarProperty Name="VALORUNIDAD" ColumnName="VALORUNIDAD" />
                 <ScalarProperty Name="TOTALPAGO" ColumnName="TOTALPAGO" />
+                <ScalarProperty Name="VALORUNIDAD" ColumnName="VALORUNIDAD" />
+                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
+                <ScalarProperty Name="NOPRODUCTOS" ColumnName="NOPRODUCTOS" />
+                <ScalarProperty Name="IDPRODUCTO" ColumnName="IDPRODUCTO" />
+                <ScalarProperty Name="IDFACTURA" ColumnName="IDFACTURA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

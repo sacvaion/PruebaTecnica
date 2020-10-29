@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="FACTURAS" EntityType="Model.FACTURA" />
+    <EntitySet Name="PRODUCTOS" EntityType="Model.PRODUCTO" />
+    <EntitySet Name="DETALLEFACTURAs" EntityType="Model.DETALLEFACTURA" />
+    <AssociationSet Name="FK_FACTURA" Association="Model.FK_FACTURA">
+      <End Role="FACTURA" EntitySet="FACTURAS" />
+      <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURAs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODUCTOS" Association="Model.FK_PRODUCTOS">
+      <End Role="PRODUCTO" EntitySet="PRODUCTOS" />
+      <End Role="DETALLEFACTURA" EntitySet="DETALLEFACTURAs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="FACTURA">
+    <Key>
+      <PropertyRef Name="IDFACTURA" />
+    </Key>
+    <Property Name="IDFACTURA" Type="Guid" Nullable="false" />
+    <Property Name="NUMEROFACTURA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FECHA" Type="DateTime" Nullable="false" />
+    <Property Name="TIPODEPAGO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DOCUMENTOCLIENTE" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="NOMBRECLIENTE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBTOTAL" Type="Int32" Nullable="false" />
+    <Property Name="DESCUENTO" Type="Int32" Nullable="false" />
+    <Property Name="IVA" Type="Int32" Nullable="false" />
+    <Property Name="TOTALDESCUENTO" Type="Int32" Nullable="false" />
+    <Property Name="TOTALIMPUESTO" Type="Int32" Nullable="false" />
+    <Property Name="TOTAL" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DETALLEFACTURAs" Relationship="Model.FK_FACTURA" FromRole="FACTURA" ToRole="DETALLEFACTURA" />
+  </EntityType>
+  <EntityType Name="PRODUCTO">
+    <Key>
+      <PropertyRef Name="IDPRODUCTO" />
+    </Key>
+    <Property Name="IDPRODUCTO" Type="Int32" Nullable="false" />
+    <Property Name="PRODUCTO1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="DETALLEFACTURAs" Relationship="Model.FK_PRODUCTOS" FromRole="PRODUCTO" ToRole="DETALLEFACTURA" />
+  </EntityType>
+  <EntityType Name="DETALLEFACTURA">
+    <Key>
+      <PropertyRef Name="IDFACTURA" />
+      <PropertyRef Name="IDPRODUCTO" />
+      <PropertyRef Name="NOPRODUCTOS" />
+    </Key>
+    <Property Name="IDFACTURA" Type="Guid" Nullable="false" />
+    <Property Name="IDPRODUCTO" Type="Int32" Nullable="false" />
+    <Property Name="NOPRODUCTOS" Type="Int16" Nullable="false" />
+    <Property Name="DESCUENTO" Type="Int32" />
+    <Property Name="VALORUNIDAD" Type="Int32" />
+    <Property Name="TOTALPAGO" Type="Int32" />
+    <NavigationProperty Name="FACTURA" Relationship="Model.FK_FACTURA" FromRole="DETALLEFACTURA" ToRole="FACTURA" />
+    <NavigationProperty Name="PRODUCTO" Relationship="Model.FK_PRODUCTOS" FromRole="DETALLEFACTURA" ToRole="PRODUCTO" />
+  </EntityType>
+  <Association Name="FK_FACTURA">
+    <End Type="Model.FACTURA" Role="FACTURA" Multiplicity="1" />
+    <End Type="Model.DETALLEFACTURA" Role="DETALLEFACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURA">
+        <PropertyRef Name="IDFACTURA" />
+      </Principal>
+      <Dependent Role="DETALLEFACTURA">
+        <PropertyRef Name="IDFACTURA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODUCTOS">
+    <End Type="Model.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+    <End Type="Model.DETALLEFACTURA" Role="DETALLEFACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTO">
+        <PropertyRef Name="IDPRODUCTO" />
+      </Principal>
+      <Dependent Role="DETALLEFACTURA">
+        <PropertyRef Name="IDPRODUCTO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

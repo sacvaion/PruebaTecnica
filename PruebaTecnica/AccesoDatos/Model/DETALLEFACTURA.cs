@@ -14,7 +14,7 @@ namespace AccesoDatos.Model
     
     public partial class DETALLEFACTURA
     {
-        public int IDFACTURA { get; set; }
+        public System.Guid IDFACTURA { get; set; }
         public int IDPRODUCTO { get; set; }
         public short NOPRODUCTOS { get; set; }
         public Nullable<int> DESCUENTO { get; set; }

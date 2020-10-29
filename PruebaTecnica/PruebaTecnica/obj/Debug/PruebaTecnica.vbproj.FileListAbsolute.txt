@@ -73,7 +73,6 @@ D:\Git\PruebaTecnica\PruebaTecnica\PruebaTecnica\bin\System.Web.WebPages.Razor.x
 D:\Git\PruebaTecnica\PruebaTecnica\PruebaTecnica\bin\Newtonsoft.Json.xml
 D:\Git\PruebaTecnica\PruebaTecnica\PruebaTecnica\bin\Antlr3.Runtime.pdb
 D:\Git\PruebaTecnica\PruebaTecnica\PruebaTecnica\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Git\PruebaTecnica\PruebaTecnica\PruebaTecnica\obj\Debug\PruebaTecnica.vbprojAssemblyReference.cache
 D:\Git\PruebaTecnica\PruebaTecnica\PruebaTecnica\obj\Debug\PruebaTecnica.Resources.resources
 D:\Git\PruebaTecnica\PruebaTecnica\PruebaTecnica\obj\Debug\PruebaTecnica.vbproj.GenerateResource.cache
 D:\Git\PruebaTecnica\PruebaTecnica\PruebaTecnica\obj\Debug\PruebaTecnica.vbproj.CoreCompileInputs.cache

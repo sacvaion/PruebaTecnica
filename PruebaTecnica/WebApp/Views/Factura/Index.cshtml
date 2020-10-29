@@ -1,0 +1,51 @@
+﻿@model IEnumerable<AccesoDatos.Model.FACTURA>
+
+@{
+    ViewBag.Title = "Listar Camara";
+}
+
+    <p>
+        @Html.ActionLink("Create New", "Add")
+    </p>
+    <table class="table table-hover table-responsive table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FECHA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NUMEROFACTURA)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.NOMBRECLIENTE)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.TOTAL)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FECHA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NUMEROFACTURA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRECLIENTE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TOTAL)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IDFACTURA }) |
+            @Html.ActionLink("Details", "Details", new { id = item.IDFACTURA }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IDFACTURA })
+        </td>
+    </tr>
+    }
+    
+    </table>
+
